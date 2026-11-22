@@ -1,0 +1,19 @@
+{
+  "id": "/activate",
+  "name": "Total Wireless eSIM Activation",
+  "short_name": "Total Activate",
+  "description": "One-tap eSIM activation by Total Wireless — 136-20 Roosevelt Ave Suite 119, Flushing, NY 11354.",
+  "start_url": "/activate",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b0e17",
+  "theme_color": "#285ae6",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

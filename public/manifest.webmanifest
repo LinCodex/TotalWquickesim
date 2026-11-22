@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "Total Wireless eSIM Quick Access",
+  "short_name": "Total eSIM",
+  "description": "Total Wireless eSIM QR code scanner and one-tap activation link generator — 136-20 Roosevelt Ave Suite 119, Flushing, NY 11354.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b0e17",
+  "theme_color": "#285ae6",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

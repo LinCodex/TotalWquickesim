@@ -1,0 +1,376 @@
+/* Total Wireless eSIM Quick Access — Brand Design System */
+:root {
+  color-scheme: light dark;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro SC", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  --font-serif-zh: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro SC", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  --tw-blue: #285ae6;
+  --tw-blue-deep: #1b44be;
+  --tw-teal: #00a99d;
+  --tw-red: #e51c23;
+  --page: #f3f6fc;
+  --surface: #ffffff;
+  --surface-soft: #e9eef8;
+  --ink: #0f172a;
+  --muted: #52607a;
+  --accent: #285ae6;
+  --on-accent: #ffffff;
+  --line: #cbd5e8;
+  --control-line: #8d9cb8;
+  --rim: rgb(255 255 255 / 0.88);
+  --glass: rgb(255 255 255 / 0.9);
+  --glass-shadow: 0 8px 28px rgb(15 23 42 / 0.08);
+  --selected: #e1e8f7;
+  --selection-ink: #0f172a;
+  --focus: #1d49c8;
+  --border-subtle: color-mix(in srgb, var(--ink) 10%, transparent);
+  --card-shadow: 0 1px 3px rgb(15 23 42 / 0.05), 0 10px 28px rgb(15 23 42 / 0.05);
+  --card-shadow-hover: 0 4px 12px rgb(15 23 42 / 0.07), 0 18px 36px rgb(15 23 42 / 0.08);
+  --radius: 24px;
+  --sheet-radius: 32px;
+  --blur: 12px;
+  --settle: cubic-bezier(0.16, 1, 0.3, 1);
+  --gutter: clamp(18px, 4.5vw, 72px);
+  --header-top: calc(12px + env(safe-area-inset-top, 0px));
+  --header-height: 62px;
+  --header-clear: calc(var(--header-top) + var(--header-height) + 12px);
+  color: var(--ink);
+  background: var(--page);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tw-blue: #4e7cff;
+    --tw-blue-deep: #285ae6;
+    --tw-teal: #2dd4bf;
+    --tw-red: #ff4d4f;
+    --page: #0a0e18;
+    --surface: #131929;
+    --surface-soft: #1c2438;
+    --ink: #f4f7ff;
+    --muted: #9fb0cf;
+    --accent: #5582ff;
+    --on-accent: #ffffff;
+    --line: #2f3b56;
+    --control-line: #617399;
+    --rim: rgb(255 255 255 / 0.16);
+    --glass: rgb(19 25 41 / 0.92);
+    --glass-shadow: 0 12px 34px rgb(0 0 0 / 0.42);
+    --selected: #25304a;
+    --selection-ink: #ffffff;
+    --focus: #799dff;
+    --border-subtle: rgb(255 255 255 / 0.11);
+    --card-shadow: none;
+    --card-shadow-hover: none;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: var(--header-clear);
+}
+
+body {
+  margin: 0;
+  padding-top: var(--header-clear);
+  background: var(--page);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+  cursor: pointer;
+  border: 0;
+}
+
+button,
+input,
+a,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 8px;
+  left: 8px;
+  transform: translateY(-180%);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 14px;
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.skip-link:not(:focus) {
+  clip-path: inset(100%);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-sans);
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+  font-weight: 700;
+}
+
+.eyebrow,
+.fine-print,
+.contact-label,
+.footer-links {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.eyebrow {
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 0 10px;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.text-link:hover {
+  text-decoration: underline;
+}
+
+/* Header & Total Wireless Brand Bar */
+.site-header {
+  position: fixed;
+  top: var(--header-top);
+  left: max(12px, env(safe-area-inset-left, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+  width: auto;
+  max-width: 980px;
+  margin: 0 auto;
+  height: var(--header-height);
+  padding: 0 14px 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: 999px;
+  z-index: 40;
+  background: var(--glass);
+  border: 1px solid var(--rim);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 var(--rim);
+  backdrop-filter: blur(var(--blur)) saturate(1.35);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.35);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.brand-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, var(--tw-blue) 0%, var(--tw-blue-deep) 100%);
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgb(40 90 230 / 0.32);
+}
+
+.brand-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.brand-total {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.brand-wireless {
+  color: var(--accent);
+  font-weight: 650;
+}
+
+.brand-check {
+  color: var(--tw-red);
+  font-weight: 900;
+  margin-left: 1px;
+}
+
+.brand-network-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tw-teal) 14%, var(--surface-soft));
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+@media (max-width: 540px) {
+  .brand-network-tag {
+    display: none;
+  }
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.header-phone-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border-subtle);
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.header-phone-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (max-width: 440px) {
+  .header-phone-pill span {
+    display: none;
+  }
+  .header-phone-pill {
+    padding: 6px 10px;
+  }
+}
+
+.language-toggle {
+  min-width: 42px;
+  min-height: 38px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border-subtle);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 650;
+  transition: background-color 160ms var(--settle), border-color 160ms var(--settle);
+}
+
+.language-toggle:hover {
+  background: var(--selected);
+  border-color: var(--control-line);
+}
+
+footer {
+  max-width: 980px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 24px 16px 36px;
+  gap: 14px 24px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+footer > span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
