@@ -1,11 +1,15 @@
 const TEXT_MAP: Record<string, string> = {
   'eSIM Quick Access | Flushing Store': 'eSIM 快速安装工具 | 法拉盛门店',
-  'Activate your eSIM | Flushing Store': '激活 eSIM | 法拉盛门店',
+  'eSIM activation': 'eSIM 激活',
+  'eSIM activation | Total Wireless': 'eSIM 激活 | Total Wireless',
+  'eSIM activation | Ultra Mobile': 'eSIM 激活 | Ultra Mobile',
+  'eSIM activation | Lyca Mobile': 'eSIM 激活 | Lyca Mobile',
+  'eSIM activation | H2O Wireless': 'eSIM 激活 | H2O Wireless',
+  'eSIM activation | Cricket Wireless': 'eSIM 激活 | Cricket Wireless',
   'Skip to content': '跳至主要内容',
   'Total Wireless Flushing store': 'Total Wireless 法拉盛门店',
   'Store help and language': '门店帮助和语言',
   'Store eSIM tools': '门店 eSIM 工具',
-  'Store activation': '门店激活',
   'Flushing store': '法拉盛门店',
   'Call the store': '致电门店',
   'Call (347) 788-3838': '致电 (347) 788-3838',
@@ -17,8 +21,9 @@ const TEXT_MAP: Record<string, string> = {
   'Carrier activation': '运营商激活页面',
 
   'Create an eSIM link': '创建 eSIM 激活链接',
-  'Scan a Total Wireless eSIM QR code or enter the profile details to create a link you can share with a customer.':
-    '扫描 Total Wireless eSIM 二维码或输入配置信息，即可生成可分享给客户的激活链接。',
+  'Choose the carrier, then scan an eSIM QR code or enter the profile details to create a shareable activation link.':
+    '选择运营商后，扫描 eSIM 二维码或输入配置信息，即可创建可分享的激活链接。',
+  'Choose a carrier': '选择运营商',
   'eSIM link generator': 'eSIM 链接生成工具',
   'Scan a QR code': '扫描二维码',
   'Use the QR code from the eSIM profile.': '请使用 eSIM 配置中的二维码。',
@@ -58,8 +63,7 @@ const TEXT_MAP: Record<string, string> = {
   'iOS Quick Link': 'iOS 一键激活码',
   'Direct LPA': '原始 LPA 码',
   'eSIM QR code': 'eSIM 二维码',
-  'Scan with the iPhone camera to open the store activation link.':
-    '用 iPhone 相机扫码，打开门店激活链接。',
+  'Scan with the iPhone camera to open the activation link.': '用 iPhone 相机扫码，打开激活链接。',
   'Scan from your device’s eSIM settings.': '在设备的 eSIM 设置中扫描此二维码。',
   'Copy QR Image': '复制二维码图片',
   'How to activate': '如何激活',
@@ -82,42 +86,42 @@ const TEXT_MAP: Record<string, string> = {
 
   'Opened in WeChat? Tap ··· at top-right and choose Open in Safari.':
     '在微信中打开？请点击右上角 ···，选择“在 Safari 中打开”。',
+  'iPhone eSIM setup': 'iPhone eSIM 设置',
+  'eSIM setup link': 'eSIM 设置链接',
+  'Carrier eSIM help': '运营商 eSIM 帮助',
   'Activate your eSIM': '激活您的 eSIM',
-  'Open this link on the iPhone you’re setting up. The button opens Apple’s eSIM setup.':
-    '请在要设置的 iPhone 上打开此链接。点击按钮即可进入 Apple 的 eSIM 设置。',
+  'Use this link on the iPhone you want to activate. It opens Apple’s eSIM setup.':
+    '请在要激活的 iPhone 上打开此链接，以进入 Apple 的 eSIM 设置。',
   'Assigned Number': '已分配号码',
   'Copy': '复制',
   'Copied': '已复制',
   'Copy phone number': '复制手机号码',
   'Phone number copied.': '手机号码已复制。',
   'Activate eSIM': '激活 eSIM',
-  'Invalid or unsupported activation link. Ask the store for a fresh link.':
-    '此激活链接无效或不受支持，请联系门店获取新链接。',
+  'This activation link is invalid. Ask the sender for a new link.':
+    '此激活链接无效，请向发送者索取新链接。',
   'Before you begin': '开始之前',
   'Connect your iPhone to Wi-Fi.': '将 iPhone 连接至 Wi-Fi。',
-  'Keep your phone charged during setup.': '请确保设置期间手机电量充足。',
-  'This quick link requires iOS 17.4 or later.': '此激活链接需要 iOS 17.4 或更新版本。',
-  'See the activation steps': '查看激活步骤',
-  'Activation Walkthrough': '激活指南',
-  'Follow the prompts on your iPhone to finish setting up your line.':
-    '按照 iPhone 上的提示完成号码设置。',
+  'Keep your phone charged.': '请保持手机电量充足。',
+  'Use iOS 17.4 or later.': '请使用 iOS 17.4 或更新版本。',
+  'See the setup steps': '查看设置步骤',
+  'Finish on your iPhone': '在 iPhone 上完成设置',
+  'Follow the prompts to install your eSIM.': '按照提示安装 eSIM。',
   'Activation steps': '激活步骤',
-  'iPhone preview': 'iPhone 预览',
+  'Open setup': '打开设置',
+  'Allow eSIM': '允许安装 eSIM',
+  'Connect': '连接',
+  'Finish': '完成',
   'Pause': '暂停',
   'Play': '播放',
-  'Allow': '允许',
-  'Done': '完成',
-  'Continue': '继续',
-  'Activate New eSIM': '激活新 eSIM',
-  'Cellular Setup Complete': '蜂窝网络设置完成',
   'Tap “Activate eSIM”': '点击“激活 eSIM”',
-  'Open Apple’s eSIM setup from this page.': '从此页面进入 Apple 的 eSIM 设置。',
+  'Open this link on the iPhone that will use the eSIM.': '请在使用这张 eSIM 的 iPhone 上打开此链接。',
   'Tap “Allow”': '点击“允许”',
-  'Approve the new eSIM when prompted.': '出现提示时，允许安装新的 eSIM。',
+  'If iPhone asks to activate a new eSIM, allow it to continue.': '如果 iPhone 提示激活新 eSIM，请点击“允许”继续。',
   'Tap “Continue”': '点击“继续”',
-  'Keep Wi-Fi connected while your line activates.': '激活期间请保持 Wi-Fi 连接。',
+  'Stay connected to Wi-Fi while your iPhone adds the plan.': 'iPhone 添加套餐期间，请保持 Wi-Fi 连接。',
   'Tap “Done”': '点击“完成”',
-  'Finish when you see Cellular Setup Complete.': '看到“蜂窝网络设置完成”后，即可结束设置。'
+  'When iPhone confirms cellular setup is complete, tap Done.': '当 iPhone 提示蜂窝网络设置完成时，点击“完成”。'
 };
 
 export function translate(input: string): string {

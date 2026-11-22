@@ -1,6 +1,7 @@
 import './i18n';
 import { Html5Qrcode, Html5QrcodeSupportedFormats } from 'html5-qrcode';
 import QRCode from 'qrcode';
+import { carriers, isCarrierId, TOTAL_WIRELESS, type CarrierId } from './carriers';
 import {
   encodePhoneParam,
   formatDisplayPhone,
@@ -17,6 +18,7 @@ let isScannerStarting = false;
 let activeStream: MediaStream | null = null;
 let currentLpa: LpaData | null = null;
 let currentPhone = '';
+let currentCarrier: CarrierId = TOTAL_WIRELESS;
 let qrMode: 'redirect' | 'raw' = 'redirect';
 let toastTimer = 0;
 let qrStatusTimer = 0;
@@ -112,8 +114,11 @@ const smdpInput = document.getElementById('manual-smdp') as HTMLInputElement | n
 const codeInput = document.getElementById('manual-code') as HTMLInputElement | null;
 const confirmInput = document.getElementById('manual-confirm') as HTMLInputElement | null;
 const phoneInput = document.getElementById('manual-phone') as HTMLInputElement | null;
+const phoneField = document.getElementById('manual-phone-field');
+const carrierOptions = document.getElementById('carrier-options');
 
 const resultSection = document.getElementById('lpa-result-section');
+const resultCarrier = document.getElementById('result-carrier');
 const verifySmdp = document.getElementById('verify-smdp');
 const verifyCode = document.getElementById('verify-code');
 const verifyConfirm = document.getElementById('verify-confirm');
@@ -139,12 +144,52 @@ if (screenBtn && actionRow && !(navigator.mediaDevices && 'getDisplayMedia' in n
   actionRow.classList.add('is-single');
 }
 
+if (carrierOptions) {
+  for (const [id, carrier] of Object.entries(carriers)) {
+    const label = document.createElement('label');
+    label.className = 'carrier-option';
+
+    const radio = document.createElement('input');
+    radio.type = 'radio';
+    radio.name = 'carrier';
+    radio.value = id;
+    radio.checked = id === currentCarrier;
+
+    const logo = document.createElement('img');
+    logo.src = carrier.logo;
+    logo.alt = '';
+
+    const name = document.createElement('span');
+    name.textContent = carrier.name;
+    name.setAttribute('data-no-translate', '');
+
+    label.append(radio, logo, name);
+    carrierOptions.append(label);
+  }
+
+  carrierOptions.addEventListener('change', (event) => {
+    const radio = event.target;
+    if (!(radio instanceof HTMLInputElement) || !isCarrierId(radio.value)) return;
+    currentCarrier = radio.value;
+
+    const allowPhone = currentCarrier === TOTAL_WIRELESS;
+    if (phoneField) phoneField.hidden = !allowPhone;
+    if (phoneInput) phoneInput.disabled = !allowPhone;
+
+    if (!currentLpa) return;
+    updatePhoneAndLinkDisplay();
+    if (qrMode === 'redirect') void renderQr();
+  });
+}
+
 function generateActivationLink(lpa: LpaData, phone?: string): string {
   const params = new URLSearchParams();
   params.set('lpa', formatLpaString(lpa));
-  const compactPhone = encodePhoneParam(phone);
-  if (compactPhone) {
-    params.set('phone', compactPhone);
+  if (currentCarrier === TOTAL_WIRELESS) {
+    const compactPhone = encodePhoneParam(phone);
+    if (compactPhone) params.set('phone', compactPhone);
+  } else {
+    params.set('carrier', currentCarrier);
   }
   return `${window.location.origin}/activate?${params.toString()}`;
 }
@@ -212,7 +257,7 @@ async function renderQr() {
     qrCaption.textContent =
       qrMode === 'raw'
         ? 'Scan from your device’s eSIM settings.'
-        : 'Scan with the iPhone camera to open the store activation link.';
+        : 'Scan with the iPhone camera to open the activation link.';
   }
 
   for (const btn of qrModeButtons) {
@@ -258,9 +303,10 @@ function downloadBlob(blob: Blob, filename: string) {
 function updatePhoneAndLinkDisplay() {
   if (!currentLpa) return;
   const activationLink = generateActivationLink(currentLpa, currentPhone);
+  if (resultCarrier) resultCarrier.textContent = carriers[currentCarrier].name;
 
   if (verifyPhone && verifyPhoneRow) {
-    if (currentPhone) {
+    if (currentCarrier === TOTAL_WIRELESS && currentPhone) {
       verifyPhone.textContent = formatDisplayPhone(currentPhone);
       verifyPhoneRow.hidden = false;
     } else {

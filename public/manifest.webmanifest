@@ -2,7 +2,7 @@
   "id": "/",
   "name": "Flushing Store eSIM Tools",
   "short_name": "Flushing eSIM",
-  "description": "Scan a Total Wireless eSIM QR code or enter its profile details to create a Flushing store activation link.",
+  "description": "Choose a carrier, then scan or enter an eSIM profile to create a shareable activation link.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

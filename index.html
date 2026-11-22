@@ -10,7 +10,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Flushing eSIM">
-  <meta name="description" content="Scan or enter a Total Wireless eSIM profile and create an activation link for a Flushing store customer.">
+  <meta name="description" content="Choose a carrier, then scan or enter an eSIM profile to create a shareable activation link.">
   <title>eSIM Quick Access | Flushing Store</title>
   <link rel="icon" href="/total-wireless-logo.svg" type="image/svg+xml">
   <link rel="manifest" href="/manifest.webmanifest">
@@ -38,12 +38,16 @@
       <div class="intro-copy">
         <p class="section-label">Flushing store</p>
         <h1 id="scanner-heading">Create an eSIM link</h1>
-        <p>Scan a Total Wireless eSIM QR code or enter the profile details to create a link you can share with a customer.</p>
+        <p>Choose the carrier, then scan an eSIM QR code or enter the profile details to create a shareable activation link.</p>
       </div>
       <div class="intro-mark" aria-hidden="true"><svg width="92" height="92" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h8l5 5v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a3 3 0 0 1 3-3Z"/><rect x="8" y="10" width="8" height="7" rx="1"/><path d="M8 13.5h8m-4-3.5v7"/></svg></div>
     </section>
 
     <section class="panel scanner-workspace" aria-label="eSIM link generator">
+      <fieldset class="carrier-fieldset">
+        <legend>Choose a carrier</legend>
+        <div id="carrier-options" class="carrier-options"></div>
+      </fieldset>
       <div class="workspace-pane scan-pane">
         <h2>Scan a QR code</h2>
         <p class="pane-description">Use the QR code from the eSIM profile.</p>
@@ -93,7 +97,7 @@
               <label for="manual-confirm"><span>Confirmation Code</span> <small>Optional</small></label>
               <input id="manual-confirm" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="e.g. 1234">
             </div>
-            <div class="field">
+            <div id="manual-phone-field" class="field">
               <label for="manual-phone"><span>Phone Number</span> <small>Optional</small></label>
               <input id="manual-phone" type="tel" autocomplete="off" placeholder="e.g. (212) 555-0123">
             </div>
@@ -106,7 +110,10 @@
 
     <section id="lpa-result-section" class="panel result-panel" aria-labelledby="result-card-title" hidden>
       <div class="result-header">
-        <h2 id="result-card-title">Generated eSIM Link</h2>
+        <div>
+          <h2 id="result-card-title">Generated eSIM Link</h2>
+          <p id="result-carrier" class="result-carrier" data-no-translate></p>
+        </div>
         <button id="reset-scan-btn" class="button button-plain" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8m0-5v5h5"/></svg> <span>Scan Another Code</span></button>
       </div>
       <div class="result-grid">

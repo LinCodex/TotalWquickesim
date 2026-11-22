@@ -4,167 +4,136 @@
   <meta charset="UTF-8">
   <meta name="color-scheme" content="light dark">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#211b1b" media="(prefers-color-scheme: dark)">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Flushing eSIM">
-  <meta name="description" content="Install an eSIM using a setup link from the Total Wireless store at 136-20 Roosevelt Ave, Suite 119, Flushing, NY.">
-  <title>Activate your eSIM | Flushing Store</title>
-  <link rel="icon" href="/total-wireless-logo.svg" type="image/svg+xml">
-  <link rel="manifest" href="/activate-manifest.webmanifest">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Install an eSIM on an iPhone using a carrier setup link.">
+  <title>eSIM activation</title>
   <link rel="stylesheet" href="/src/styles.css">
   <link rel="stylesheet" href="/src/activate.css">
   <script src="/lang-init.js"></script>
 </head>
-<body>
+<body class="activation-site" data-carrier="unknown">
   <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <div class="layout header-inner">
-      <a class="brand" href="https://www.totalwireless.com/stores/ny/flushing/13620-roosevelt-ave" aria-label="Total Wireless Flushing store"><img src="/total-wireless-logo.svg" width="182" height="96" alt="Total Wireless" data-no-translate></a>
-      <span class="header-label">Store activation</span>
-      <nav class="header-actions" aria-label="Store help and language">
-        <a class="header-call" href="tel:+13477883838" aria-label="Call the store">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.7v2.8a2 2 0 0 1-2.2 2 19.9 19.9 0 0 1-8.7-3.1 19.5 19.5 0 0 1-6-6 19.9 19.9 0 0 1-3.1-8.7A2 2 0 0 1 4 1.5h2.8a2 2 0 0 1 2 1.7l.8 3.3a2 2 0 0 1-.5 1.9L7.8 9.7a16 16 0 0 0 6.5 6.5l1.3-1.3a2 2 0 0 1 1.9-.5l3.3.8a2 2 0 0 1 1.2 1.5Z"/></svg>
-          <span>Call the store</span>
-        </a>
-        <button class="language-toggle" type="button" aria-label="切换为中文">中文</button>
-      </nav>
+  <header class="activation-header">
+    <div class="layout activation-header-inner">
+      <a id="carrier-brand" class="carrier-brand" hidden><img alt="" data-no-translate></a>
+      <span class="activation-context">iPhone eSIM setup</span>
+      <button class="language-toggle" type="button" aria-label="切换为中文">中文</button>
     </div>
   </header>
+
   <main id="main" class="layout page activation-page">
     <div id="esim-shell" data-state="invalid" data-step="1">
-      <p id="wechat-safari-banner" class="alert alert-info" hidden>
-        Opened in WeChat? Tap ··· at top-right and choose Open in Safari.
-      </p>
+      <p id="wechat-safari-banner" class="alert alert-info" hidden>Opened in WeChat? Tap ··· at top-right and choose Open in Safari.</p>
 
-      <div class="activation-grid">
-        <section class="intro intro-activation" aria-labelledby="activation-heading">
-          <p class="section-label">Flushing store</p>
-          <h1 id="activation-heading">Activate your eSIM</h1>
-          <p class="intro-description">Open this link on the iPhone you’re setting up. The button opens Apple’s eSIM setup.</p>
+      <div class="setup-layout">
+        <section class="setup-hero" aria-labelledby="activation-heading">
+          <div class="setup-copy">
+            <span class="hero-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h8l5 5v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a3 3 0 0 1 3-3Z"/><rect x="8" y="10" width="8" height="7" rx="1"/><path d="M8 13.5h8m-4-3.5v7"/></svg></span>
+            <h1 id="activation-heading">Activate your eSIM</h1>
+            <p class="setup-intro">Use this link on the iPhone you want to activate. It opens Apple’s eSIM setup.</p>
 
-          <div id="redirect-phone-box" class="assigned-number" hidden>
-            <div class="assigned-meta">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/></svg>
-              <div>
+            <div id="redirect-phone-box" class="assigned-number" hidden>
+              <div class="assigned-meta">
                 <span>Assigned Number</span>
                 <strong id="redirect-phone-number" data-no-translate></strong>
               </div>
+              <button id="copy-phone-btn" class="button copy-phone" type="button" aria-label="Copy phone number">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg> <span class="chip-idle">Copy</span><span class="chip-done" aria-hidden="true">Copied</span>
+              </button>
             </div>
-            <button id="copy-phone-btn" class="button copy-phone" type="button" aria-label="Copy phone number">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg> <span class="chip-idle">Copy</span><span class="chip-done" aria-hidden="true">Copied</span>
-            </button>
-          </div>
-          <p id="redirect-phone-status" class="sr-only" role="status"></p>
+            <p id="redirect-phone-status" class="sr-only" role="status"></p>
 
-          <a id="activate-btn" class="button button-primary activation-button" aria-disabled="true" role="link">
-            <span id="activate-btn-title">Activate eSIM</span> <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-          </a>
-          <p id="redirect-error" class="alert alert-error" role="alert" hidden>
-            Invalid or unsupported activation link. Ask the store for a fresh link.
-          </p>
+            <a id="activate-btn" class="setup-button" aria-disabled="true" role="link">
+              <span id="activate-btn-title">Activate eSIM</span> <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>
+            </a>
+            <p id="redirect-error" class="alert alert-error" role="alert" hidden>
+              This activation link is invalid. Ask the sender for a new link.
+            </p>
+          </div>
         </section>
 
-        <aside class="panel activation-prep" aria-labelledby="prep-heading">
-          <span class="prep-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a15 15 0 0 1 18 0M6 13a10 10 0 0 1 12 0m-9 4a5 5 0 0 1 6 0"/><circle cx="12" cy="20" r=".6" fill="currentColor"/></svg></span>
+        <aside class="setup-prep" aria-labelledby="prep-heading">
           <h2 id="prep-heading">Before you begin</h2>
           <ul>
-            <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg> <span>Connect your iPhone to Wi-Fi.</span></li>
-            <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg> <span>Keep your phone charged during setup.</span></li>
-            <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg> <span>This quick link requires iOS 17.4 or later.</span></li>
+            <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a15 15 0 0 1 18 0M6 13a10 10 0 0 1 12 0m-9 4a5 5 0 0 1 6 0"/><circle cx="12" cy="20" r=".5" fill="currentColor"/></svg> <span>Connect your iPhone to Wi-Fi.</span></li>
+            <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="16" height="10" rx="2"/><path d="M21 10v4M6 10h7v4H6z"/></svg> <span>Keep your phone charged.</span></li>
+            <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M4 9h16m-12 5h8"/></svg> <span>Use iOS 17.4 or later.</span></li>
           </ul>
-          <a href="#guide-heading" class="text-link"><span>See the activation steps</span> <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+          <a href="#guide-heading" class="setup-text-link"><span>See the setup steps</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a>
         </aside>
       </div>
 
-      <section class="panel walkthrough" aria-labelledby="guide-heading">
-        <div class="walkthrough-header">
+      <section class="guide" aria-labelledby="guide-heading">
+        <div class="guide-header">
           <div>
-            <h2 id="guide-heading">Activation Walkthrough</h2>
-            <p>Follow the prompts on your iPhone to finish setting up your line.</p>
+            <h2 id="guide-heading">Finish on your iPhone</h2>
+            <p>Follow the prompts to install your eSIM.</p>
           </div>
-          <button id="guide-motion-toggle" class="button" type="button" aria-controls="iphone-stage">
-            <span class="label-pause"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5v14m6-14v14"/></svg> <span>Pause</span></span>
-            <span class="label-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 5 12 7-12 7Z"/></svg> <span>Play</span></span>
+          <button id="guide-motion-toggle" class="button guide-motion" type="button" aria-controls="guide-content">
+            <span class="label-pause"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5v14m6-14v14"/></svg> <span>Pause</span></span>
+            <span class="label-play"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 5 12 7-12 7Z"/></svg> <span>Play</span></span>
           </button>
         </div>
 
-        <div class="walkthrough-grid">
-          <div id="iphone-stage" class="phone-stage" aria-hidden="true">
-            <span class="phone-caption">iPhone preview</span>
-            <div class="phone-frame">
-              <div class="phone-island"></div>
-              <div class="phone-content">
-                <div class="phone-step" data-preview-step="1">
-                  <img src="/total-wireless-logo.svg" width="182" height="96" alt="Total Wireless" data-no-translate>
-                  <strong>Activate your eSIM</strong>
-                  <span class="preview-button preview-activate">Activate eSIM</span>
-                </div>
-                <div class="phone-step" data-preview-step="2">
-                  <span class="preview-icon"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h8l5 5v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a3 3 0 0 1 3-3Z"/><rect x="8" y="10" width="8" height="7" rx="1"/><path d="M8 13.5h8m-4-3.5v7"/></svg></span>
-                  <strong>Activate New eSIM</strong>
-                  <span class="preview-button">Allow</span>
-                </div>
-                <div class="phone-step" data-preview-step="3">
-                  <span class="preview-icon"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/></svg></span>
-                  <strong>Activate eSIM</strong>
-                  <span class="preview-button">Continue</span>
-                </div>
-                <div class="phone-step" data-preview-step="4">
-                  <span class="preview-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span>
-                  <strong>Cellular Setup Complete</strong>
-                  <span class="preview-button">Done</span>
-                </div>
-              </div>
-              <div class="phone-home-indicator"></div>
-            </div>
+        <div class="guide-layout">
+          <div class="guide-steps" role="group" aria-label="Activation steps">
+            <button type="button" class="guide-step" aria-pressed="true" aria-controls="guide-detail-1" data-step-target="1">
+              <span class="step-number" data-no-translate>1</span><span>Open setup</span>
+            </button>
+            <button type="button" class="guide-step" aria-pressed="false" aria-controls="guide-detail-2" data-step-target="2">
+              <span class="step-number" data-no-translate>2</span><span>Allow eSIM</span>
+            </button>
+            <button type="button" class="guide-step" aria-pressed="false" aria-controls="guide-detail-3" data-step-target="3">
+              <span class="step-number" data-no-translate>3</span><span>Connect</span>
+            </button>
+            <button type="button" class="guide-step" aria-pressed="false" aria-controls="guide-detail-4" data-step-target="4">
+              <span class="step-number" data-no-translate>4</span><span>Finish</span>
+            </button>
           </div>
-
-          <div class="step-list" role="group" aria-label="Activation steps">
-            <button type="button" class="step-row" aria-pressed="true" data-step-target="1">
-              <span class="step-number" data-no-translate>1</span>
-              <span><strong>Tap “Activate eSIM”</strong><small>Open Apple’s eSIM setup from this page.</small></span>
-            </button>
-            <button type="button" class="step-row" aria-pressed="false" data-step-target="2">
-              <span class="step-number" data-no-translate>2</span>
-              <span><strong>Tap “Allow”</strong><small>Approve the new eSIM when prompted.</small></span>
-            </button>
-            <button type="button" class="step-row" aria-pressed="false" data-step-target="3">
-              <span class="step-number" data-no-translate>3</span>
-              <span><strong>Tap “Continue”</strong><small>Keep Wi-Fi connected while your line activates.</small></span>
-            </button>
-            <button type="button" class="step-row" aria-pressed="false" data-step-target="4">
-              <span class="step-number" data-no-translate>4</span>
-              <span><strong>Tap “Done”</strong><small>Finish when you see Cellular Setup Complete.</small></span>
-            </button>
+          <div id="guide-content" class="guide-content">
+            <div id="guide-detail-1" class="guide-detail" data-preview-step="1">
+              <span class="guide-symbol"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10 18h4"/></svg></span>
+              <div><h3>Tap “Activate eSIM”</h3><p>Open this link on the iPhone that will use the eSIM.</p></div>
+            </div>
+            <div id="guide-detail-2" class="guide-detail" data-preview-step="2" hidden>
+              <span class="guide-symbol"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h8l5 5v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a3 3 0 0 1 3-3Z"/><rect x="8" y="10" width="8" height="7" rx="1"/><path d="M8 13.5h8m-4-3.5v7"/></svg></span>
+              <div><h3>Tap “Allow”</h3><p>If iPhone asks to activate a new eSIM, allow it to continue.</p></div>
+            </div>
+            <div id="guide-detail-3" class="guide-detail" data-preview-step="3" hidden>
+              <span class="guide-symbol"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a15 15 0 0 1 18 0M6 13a10 10 0 0 1 12 0m-9 4a5 5 0 0 1 6 0"/><circle cx="12" cy="20" r=".5" fill="currentColor"/></svg></span>
+              <div><h3>Tap “Continue”</h3><p>Stay connected to Wi-Fi while your iPhone adds the plan.</p></div>
+            </div>
+            <div id="guide-detail-4" class="guide-detail" data-preview-step="4" hidden>
+              <span class="guide-symbol"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></span>
+              <div><h3>Tap “Done”</h3><p>When iPhone confirms cellular setup is complete, tap Done.</p></div>
+            </div>
           </div>
         </div>
       </section>
     </div>
 
+    <template id="total-store-template">
       <section id="store" class="store-card panel" aria-labelledby="store-heading">
         <div class="store-identity">
-          <span class="store-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+          <span class="store-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
           <div>
             <h2 id="store-heading">Total Wireless · Flushing</h2>
             <address data-no-translate>136-20 Roosevelt Ave, Suite 119, Flushing, NY 11354</address>
           </div>
         </div>
         <div class="store-actions">
-          <a class="button" href="tel:+13477883838"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.7v2.8a2 2 0 0 1-2.2 2 19.9 19.9 0 0 1-8.7-3.1 19.5 19.5 0 0 1-6-6 19.9 19.9 0 0 1-3.1-8.7A2 2 0 0 1 4 1.5h2.8a2 2 0 0 1 2 1.7l.8 3.3a2 2 0 0 1-.5 1.9L7.8 9.7a16 16 0 0 0 6.5 6.5l1.3-1.3a2 2 0 0 1 1.9-.5l3.3.8a2 2 0 0 1 1.2 1.5Z"/></svg> <span>Call (347) 788-3838</span></a>
-          <a class="text-link" href="https://www.google.com/maps?cid=16192228534334845810"><span>Get directions</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M8 6h10v10"/></svg></a>
+          <a class="button" href="tel:+13477883838">Call (347) 788-3838</a>
+          <a class="text-link" href="https://www.google.com/maps?cid=16192228534334845810"><span>Get directions</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 18 12-12M8 6h10v10"/></svg></a>
+          <a class="text-link" href="https://www.totalwireless.com/stores/ny/flushing/13620-roosevelt-ave"><span>Store listing</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 18 12-12M8 6h10v10"/></svg></a>
         </div>
       </section>
+    </template>
   </main>
-  <footer class="site-footer">
-    <div class="layout footer-inner">
-      <span>Flushing store eSIM service</span>
-      <nav aria-label="Total Wireless links">
-        <a href="https://www.totalwireless.com/stores/ny/flushing/13620-roosevelt-ave">Store listing</a>
-        <a href="https://www.totalwireless.com/activation"><span>Carrier activation</span> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 18 18 6M8 6h10v10"/></svg></a>
-      </nav>
+
+  <footer class="activation-footer">
+    <div class="layout activation-footer-inner">
+      <span>eSIM setup link</span>
+      <a id="carrier-help" class="setup-text-link" hidden><span>Carrier eSIM help</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 18 12-12M8 6h10v10"/></svg></a>
     </div>
   </footer>
   <script type="module" src="/src/activate.ts"></script>
