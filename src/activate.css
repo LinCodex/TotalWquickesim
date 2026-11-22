@@ -196,6 +196,26 @@
 .setup-button:hover { background: var(--cta-hover); }
 .setup-button:focus-visible { outline-color: var(--hero-text); }
 
+@media (prefers-reduced-motion: no-preference) {
+  [data-state="ready"] .setup-button {
+    animation: setup-button-pulse 1.7s ease-out .15s 2;
+  }
+
+  [data-state="ready"] .setup-button svg {
+    animation: setup-arrow-nudge 1.7s ease-in-out .15s 2;
+  }
+
+  @keyframes setup-button-pulse {
+    from { box-shadow: 0 0 0 0 color-mix(in srgb, var(--cta-bg) 55%, transparent); }
+    60%, to { box-shadow: 0 0 0 10px transparent; }
+  }
+
+  @keyframes setup-arrow-nudge {
+    from, 60%, to { transform: translateX(0); }
+    28% { transform: translateX(5px); }
+  }
+}
+
 [data-state="invalid"] .setup-button,
 [data-state="invalid"] .setup-intro { display: none; }
 #redirect-error { margin-top: 20px; }
