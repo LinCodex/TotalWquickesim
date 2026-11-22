@@ -1,13 +1,11 @@
 import './i18n';
-import { formatDisplayPhone, parseSafeAppleActivationUrl, sanitizePhoneNumber } from './lpa-utils';
+import { formatDisplayPhone, parseSafeAppleActivationUrl } from './lpa-utils';
 
 const esimShell = document.getElementById('esim-shell');
 const activateBtn = document.getElementById('activate-btn') as HTMLAnchorElement | null;
-const activateBtnTitle = document.getElementById('activate-btn-title');
 const errorBox = document.getElementById('redirect-error');
 const phoneBox = document.getElementById('redirect-phone-box');
 const phoneNumberEl = document.getElementById('redirect-phone-number');
-const walkthroughPhoneEl = document.getElementById('walkthrough-phone-number');
 const copyPhoneBtn = document.getElementById('copy-phone-btn') as HTMLButtonElement | null;
 const phoneStatusEl = document.getElementById('redirect-phone-status');
 const wechatBanner = document.getElementById('wechat-safari-banner');
@@ -24,7 +22,7 @@ activateBtn?.addEventListener('click', (event) => {
   }
 });
 
-// Single iPhone 18 Pro multi-page walkthrough controller
+// iPhone setup walkthrough
 type StepNum = 1 | 2 | 3 | 4;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let currentStep: StepNum = 1;
@@ -33,7 +31,6 @@ let stepTimer = 0;
 function setStep(next: StepNum, focusBtn = false) {
   currentStep = next;
   esimShell?.setAttribute('data-step', String(next));
-  esimShell?.style.setProperty('--active-step', String(next));
 
   for (const btn of stepButtons) {
     const target = Number(btn.dataset.stepTarget);
@@ -116,40 +113,15 @@ startAutoAdvance();
 // URL params, phone number copy, and pure client-side LPA link resolution
 const params = new URLSearchParams(window.location.search);
 const rawCandidate = params.get('url') || params.get('lpa') || params.get('carddata');
-const urlPhone = sanitizePhoneNumber(params.get('phone'));
+const assignedNumber = formatDisplayPhone(params.get('phone') ?? '');
 
-let displayedPhone = '';
 let copyPhoneTimer = 0;
 let lastPhoneAnnouncement = '';
 
-function showPhoneNumber(rawPhone: string) {
-  if (!phoneBox || !phoneNumberEl) return;
-  if (!rawPhone) {
-    displayedPhone = '';
-    phoneNumberEl.textContent = '';
-    if (walkthroughPhoneEl) {
-      walkthroughPhoneEl.textContent = '(347) 788-3838';
-    }
-    phoneBox.hidden = true;
-    return;
-  }
-  displayedPhone = rawPhone;
-  phoneNumberEl.textContent = rawPhone;
-  if (walkthroughPhoneEl) {
-    walkthroughPhoneEl.textContent = rawPhone;
-  }
-  phoneBox.hidden = false;
-}
-
-if (urlPhone) {
-  showPhoneNumber(formatDisplayPhone(urlPhone));
-}
-
 copyPhoneBtn?.addEventListener('click', async () => {
-  const value = displayedPhone || phoneNumberEl?.textContent || '';
-  if (!value) return;
+  if (!assignedNumber) return;
   try {
-    await navigator.clipboard.writeText(value);
+    await navigator.clipboard.writeText(assignedNumber);
     clearTimeout(copyPhoneTimer);
     copyPhoneBtn.setAttribute('data-copied', '');
     if (phoneStatusEl) {
@@ -176,7 +148,10 @@ if (parsed) {
     activateBtn.href = parsed.appleUrl;
     activateBtn.removeAttribute('aria-disabled');
   }
-  if (activateBtnTitle) activateBtnTitle.textContent = 'Click to Activate';
+  if (assignedNumber && phoneBox && phoneNumberEl) {
+    phoneNumberEl.textContent = assignedNumber;
+    phoneBox.hidden = false;
+  }
   if (errorBox) errorBox.hidden = true;
   esimShell?.setAttribute('data-state', 'ready');
 } else {
@@ -184,7 +159,6 @@ if (parsed) {
     activateBtn.removeAttribute('href');
     activateBtn.setAttribute('aria-disabled', 'true');
   }
-  if (activateBtnTitle) activateBtnTitle.textContent = 'Link Unavailable';
   if (errorBox) errorBox.hidden = false;
   esimShell?.setAttribute('data-state', 'invalid');
 }

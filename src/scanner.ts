@@ -211,8 +211,8 @@ async function renderQr() {
   if (qrCaption) {
     qrCaption.textContent =
       qrMode === 'raw'
-        ? 'Scan from Android eSIM settings or camera:'
-        : 'Scan from iPhone camera to open Total Wireless activation page:';
+        ? 'Scan from your device’s eSIM settings.'
+        : 'Scan with the iPhone camera to open the store activation link.';
   }
 
   for (const btn of qrModeButtons) {
@@ -299,7 +299,8 @@ async function displayResult(lpa: LpaData, phone?: string) {
 
   if (resultSection) {
     resultSection.hidden = false;
-    resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const behavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+    resultSection.scrollIntoView({ behavior, block: 'nearest' });
   }
   clearError();
 }
