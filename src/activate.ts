@@ -1,18 +1,58 @@
 import './i18n';
-import { formatDisplayPhone, parseSafeAppleActivationUrl, sanitizePhoneNumber } from './lpa-utils';
+import { carriers, isCarrierId, TOTAL_WIRELESS } from './carriers';
+import { formatDisplayPhone, parseSafeAppleActivationUrl } from './lpa-utils';
+
+const params = new URLSearchParams(window.location.search);
+const carrierParam = params.get('carrier');
+const carrierId = carrierParam === null ? TOTAL_WIRELESS : isCarrierId(carrierParam) ? carrierParam : null;
+const carrier = carrierId === null ? null : carriers[carrierId];
+
+document.body.dataset.carrier = carrierId ?? 'unknown';
+
+if (carrier) {
+  const brand = document.querySelector<HTMLAnchorElement>('#carrier-brand');
+  const logo = brand?.querySelector('img');
+  const help = document.querySelector<HTMLAnchorElement>('#carrier-help');
+
+  document.title = `eSIM activation | ${carrier.name}`;
+  if (brand && logo) {
+    logo.src = carrier.logo;
+    logo.alt = carrier.name;
+    brand.href = carrier.help;
+    brand.hidden = false;
+  }
+  if (help) {
+    help.href = carrier.help;
+    help.hidden = false;
+  }
+
+  const favicon = document.createElement('link');
+  favicon.rel = 'icon';
+  favicon.href = carrier.logo;
+  document.head.append(favicon);
+}
+
+if (carrierId === TOTAL_WIRELESS) {
+  const template = document.querySelector<HTMLTemplateElement>('#total-store-template');
+  template?.replaceWith(template.content.cloneNode(true));
+
+  const manifest = document.createElement('link');
+  manifest.rel = 'manifest';
+  manifest.href = '/activate-manifest.webmanifest';
+  document.head.append(manifest);
+}
 
 const esimShell = document.getElementById('esim-shell');
 const activateBtn = document.getElementById('activate-btn') as HTMLAnchorElement | null;
-const activateBtnTitle = document.getElementById('activate-btn-title');
 const errorBox = document.getElementById('redirect-error');
 const phoneBox = document.getElementById('redirect-phone-box');
 const phoneNumberEl = document.getElementById('redirect-phone-number');
-const walkthroughPhoneEl = document.getElementById('walkthrough-phone-number');
 const copyPhoneBtn = document.getElementById('copy-phone-btn') as HTMLButtonElement | null;
 const phoneStatusEl = document.getElementById('redirect-phone-status');
 const wechatBanner = document.getElementById('wechat-safari-banner');
 const motionToggleBtn = document.getElementById('guide-motion-toggle') as HTMLButtonElement | null;
 const stepButtons = [...document.querySelectorAll<HTMLButtonElement>('[data-step-target]')];
+const stepDetails = [...document.querySelectorAll<HTMLElement>('[data-preview-step]')];
 
 if (wechatBanner && /MicroMessenger/i.test(navigator.userAgent)) {
   wechatBanner.hidden = false;
@@ -24,7 +64,7 @@ activateBtn?.addEventListener('click', (event) => {
   }
 });
 
-// Single iPhone 18 Pro multi-page walkthrough controller
+// iPhone setup walkthrough
 type StepNum = 1 | 2 | 3 | 4;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let currentStep: StepNum = 1;
@@ -33,7 +73,10 @@ let stepTimer = 0;
 function setStep(next: StepNum, focusBtn = false) {
   currentStep = next;
   esimShell?.setAttribute('data-step', String(next));
-  esimShell?.style.setProperty('--active-step', String(next));
+
+  for (const detail of stepDetails) {
+    detail.hidden = Number(detail.dataset.previewStep) !== next;
+  }
 
   for (const btn of stepButtons) {
     const target = Number(btn.dataset.stepTarget);
@@ -114,42 +157,16 @@ setStep(1);
 startAutoAdvance();
 
 // URL params, phone number copy, and pure client-side LPA link resolution
-const params = new URLSearchParams(window.location.search);
 const rawCandidate = params.get('url') || params.get('lpa') || params.get('carddata');
-const urlPhone = sanitizePhoneNumber(params.get('phone'));
+const assignedNumber = carrierId === TOTAL_WIRELESS ? formatDisplayPhone(params.get('phone') ?? '') : '';
 
-let displayedPhone = '';
 let copyPhoneTimer = 0;
 let lastPhoneAnnouncement = '';
 
-function showPhoneNumber(rawPhone: string) {
-  if (!phoneBox || !phoneNumberEl) return;
-  if (!rawPhone) {
-    displayedPhone = '';
-    phoneNumberEl.textContent = '';
-    if (walkthroughPhoneEl) {
-      walkthroughPhoneEl.textContent = '(347) 788-3838';
-    }
-    phoneBox.hidden = true;
-    return;
-  }
-  displayedPhone = rawPhone;
-  phoneNumberEl.textContent = rawPhone;
-  if (walkthroughPhoneEl) {
-    walkthroughPhoneEl.textContent = rawPhone;
-  }
-  phoneBox.hidden = false;
-}
-
-if (urlPhone) {
-  showPhoneNumber(formatDisplayPhone(urlPhone));
-}
-
 copyPhoneBtn?.addEventListener('click', async () => {
-  const value = displayedPhone || phoneNumberEl?.textContent || '';
-  if (!value) return;
+  if (!assignedNumber) return;
   try {
-    await navigator.clipboard.writeText(value);
+    await navigator.clipboard.writeText(assignedNumber);
     clearTimeout(copyPhoneTimer);
     copyPhoneBtn.setAttribute('data-copied', '');
     if (phoneStatusEl) {
@@ -170,13 +187,16 @@ copyPhoneBtn?.addEventListener('click', async () => {
   }
 });
 
-const parsed = parseSafeAppleActivationUrl(rawCandidate);
+const parsed = carrier && parseSafeAppleActivationUrl(rawCandidate);
 if (parsed) {
   if (activateBtn) {
     activateBtn.href = parsed.appleUrl;
     activateBtn.removeAttribute('aria-disabled');
   }
-  if (activateBtnTitle) activateBtnTitle.textContent = 'Click to Activate';
+  if (assignedNumber && phoneBox && phoneNumberEl) {
+    phoneNumberEl.textContent = assignedNumber;
+    phoneBox.hidden = false;
+  }
   if (errorBox) errorBox.hidden = true;
   esimShell?.setAttribute('data-state', 'ready');
 } else {
@@ -184,7 +204,6 @@ if (parsed) {
     activateBtn.removeAttribute('href');
     activateBtn.setAttribute('aria-disabled', 'true');
   }
-  if (activateBtnTitle) activateBtnTitle.textContent = 'Link Unavailable';
   if (errorBox) errorBox.hidden = false;
   esimShell?.setAttribute('data-state', 'invalid');
 }

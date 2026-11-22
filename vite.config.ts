@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 const CLEAN_ROUTE_MAP: Record<string, string> = {
   '/lpascan': '/index.html',
   '/activate': '/activate/index.html',
-  '/redirect': '/redirect/index.html'
+  '/redirect': '/activate/index.html'
 };
 
 function applyCleanRouteRewrite(req: Connect.IncomingMessage): boolean {
